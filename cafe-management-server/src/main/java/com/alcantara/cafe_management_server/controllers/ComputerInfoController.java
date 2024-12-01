@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.alcantara.cafe_management_server.dto.NetworkResponseDto;
+import com.alcantara.cafe_management_server.dto.ComputerNetworkInfoDto;
 import com.alcantara.cafe_management_server.service.ComputerInfoService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -22,8 +24,8 @@ public class ComputerInfoController {
     }
 
     @GetMapping("/check")
-    public ResponseEntity<NetworkResponseDto> checkIpAddresses() {
-        NetworkResponseDto response = computerInfoService.checkIpAddresses();
+    public ResponseEntity<List<ComputerNetworkInfoDto>> checkIpAddresses() {
+        List<ComputerNetworkInfoDto> response = computerInfoService.checkIpAddresses();
         return ResponseEntity.ok(response);
     }
 

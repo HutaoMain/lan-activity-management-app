@@ -1,22 +1,17 @@
 package com.alcantara.cafe_management_server.service;
 
+import com.alcantara.cafe_management_server.entities.ComputerInfo;
+import com.alcantara.cafe_management_server.repository.ComputerInfoRepository;
+
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import com.alcantara.cafe_management_server.entities.ComputerInfo;
-import com.alcantara.cafe_management_server.repository.ComputerInfoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alcantara.cafe_management_server.dto.NetworkResponseDto;
+import com.alcantara.cafe_management_server.dto.ComputerNetworkInfoDto;
 
 @Service
 public class ComputerInfoService {
@@ -26,43 +21,33 @@ public class ComputerInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(ComputerInfoService.class);
     private static final int TIMEOUT_MS = 1000;
-    private static final int THREAD_POOL_SIZE = 10;
-//    private static final int PROCESS_TIMEOUT_SECONDS = 30;
 
     public ComputerInfo createComputerInfo(ComputerInfo computerInfo){
         return computerInfoRepository.save(computerInfo);
     }
 
-    public NetworkResponseDto checkIpAddresses() {
-        Map<String, Boolean> ipStatus = new ConcurrentHashMap<>();
-        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        List<CompletableFuture<Void>> futures = new ArrayList<>();
+    public List<ComputerNetworkInfoDto> checkIpAddresses() {
+        ComputerNetworkInfoDto computerNetworkInfoDto = new ComputerNetworkInfoDto();
 
         List<ComputerInfo> computerInfoList = computerInfoRepository.findAll();
-        ArrayList<String> ipAddresses = new ArrayList<>();
+        ArrayList<ComputerNetworkInfoDto> computerNetworkInfoDtoArrayList = new ArrayList<>();
+
         for (ComputerInfo computerInfo : computerInfoList) {
-            ipAddresses.add(computerInfo.getIpAddress());
-        }
-
-        for (String ip : ipAddresses) {
-            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
                 try {
-                    boolean isReachable = isValidAndReachable(ip);
-                    ipStatus.put(ip, isReachable);
-                    logger.info("IP {} is {}reachable", ip, isReachable ? "" : "not ");
+                    boolean isReachable = isValidAndReachable(computerInfo.getIpAddress());
+                    computerNetworkInfoDto.setHostName(computerInfo.getHostname());
+                    computerNetworkInfoDto.setIpAddress(computerInfo.getIpAddress());
+                    computerNetworkInfoDto.setCreatedOn(computerInfo.getCreatedOn());
+                    computerNetworkInfoDto.setLastUpdatedOn(computerInfo.getLastUpdatedOn());
+                    computerNetworkInfoDto.setIpStatus(isReachable);
+                    computerNetworkInfoDtoArrayList.add(computerNetworkInfoDto);
                 } catch (Exception e) {
-                    logger.error("Error checking IP {}: {}", ip, e.getMessage());
-                    ipStatus.put(ip, false);
+                    logger.error("Error checking IP {}: {}", computerInfo.getIpAddress(), e.getMessage());
+                    computerNetworkInfoDto.setIpStatus(false);
                 }
-            }, executorService);
-            futures.add(future);
         }
 
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
-        executorService.shutdown();
-
-        return new NetworkResponseDto(ipStatus,
-                "Completed checking " + ipAddresses.size() + " IP addresses");
+        return computerNetworkInfoDtoArrayList;
     }
 
     private boolean isValidAndReachable(String ip) {
@@ -97,6 +82,7 @@ public class ComputerInfoService {
             return false;
         }
     }
+
 
 //    public record ShutdownResult(boolean success, String message) {
 //    }
