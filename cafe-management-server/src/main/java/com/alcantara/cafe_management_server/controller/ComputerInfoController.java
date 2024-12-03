@@ -1,6 +1,6 @@
-package com.alcantara.cafe_management_server.controllers;
+package com.alcantara.cafe_management_server.controller;
 
-import com.alcantara.cafe_management_server.entities.ComputerInfo;
+import com.alcantara.cafe_management_server.entity.ComputerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

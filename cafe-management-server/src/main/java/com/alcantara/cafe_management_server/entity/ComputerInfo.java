@@ -1,5 +1,6 @@
-package com.alcantara.cafe_management_server.entities;
+package com.alcantara.cafe_management_server.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,13 +15,14 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ComputerInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String ipAddress;
-    private String hostname;
+    private String hostName;
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdOn;
     @UpdateTimestamp(source = SourceType.DB)

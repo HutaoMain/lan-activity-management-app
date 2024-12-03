@@ -1,11 +1,13 @@
 package com.alcantara.cafe_management_server.service;
 
-import com.alcantara.cafe_management_server.entities.ComputerInfo;
+import com.alcantara.cafe_management_server.entity.ComputerInfo;
 import com.alcantara.cafe_management_server.repository.ComputerInfoRepository;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.alcantara.cafe_management_server.utility.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +29,18 @@ public class ComputerInfoService {
     }
 
     public List<ComputerNetworkInfoDto> checkIpAddresses() {
-        ComputerNetworkInfoDto computerNetworkInfoDto = new ComputerNetworkInfoDto();
+
 
         List<ComputerInfo> computerInfoList = computerInfoRepository.findAll();
         ArrayList<ComputerNetworkInfoDto> computerNetworkInfoDtoArrayList = new ArrayList<>();
 
+        System.out.println("Computer List: " + Utility.convertListToJson(computerInfoList));
+
         for (ComputerInfo computerInfo : computerInfoList) {
+            ComputerNetworkInfoDto computerNetworkInfoDto = new ComputerNetworkInfoDto();
                 try {
                     boolean isReachable = isValidAndReachable(computerInfo.getIpAddress());
-                    computerNetworkInfoDto.setHostName(computerInfo.getHostname());
+                    computerNetworkInfoDto.setHostName(computerInfo.getHostName());
                     computerNetworkInfoDto.setIpAddress(computerInfo.getIpAddress());
                     computerNetworkInfoDto.setCreatedOn(computerInfo.getCreatedOn());
                     computerNetworkInfoDto.setLastUpdatedOn(computerInfo.getLastUpdatedOn());
@@ -47,6 +52,7 @@ public class ComputerInfoService {
                 }
         }
 
+        System.out.println("ComputerNetworkInfoDtoArrayList: " + Utility.convertListToJson(computerNetworkInfoDtoArrayList));
         return computerNetworkInfoDtoArrayList;
     }
 
