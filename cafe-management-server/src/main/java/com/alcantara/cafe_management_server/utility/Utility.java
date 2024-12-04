@@ -6,16 +6,14 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 public class Utility {
     private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
-    public static <T> String convertListToJson(List<T> list) {
+    public static String convertListToJson(Object obj)  {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         try {
-            return objectMapper.writeValueAsString(list);
+            return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             logger.error(e.toString());
             return null;

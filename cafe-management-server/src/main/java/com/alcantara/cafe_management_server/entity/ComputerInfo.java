@@ -1,6 +1,5 @@
 package com.alcantara.cafe_management_server.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +14,6 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ComputerInfo {
 
     @Id

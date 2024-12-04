@@ -34,7 +34,7 @@ public class ComputerInfoService {
         List<ComputerInfo> computerInfoList = computerInfoRepository.findAll();
         ArrayList<ComputerNetworkInfoDto> computerNetworkInfoDtoArrayList = new ArrayList<>();
 
-        System.out.println("Computer List: " + Utility.convertListToJson(computerInfoList));
+        System.out.println("Computer List: " + Utility.convertListToJson(computerInfoList.get(0)));
 
         for (ComputerInfo computerInfo : computerInfoList) {
             ComputerNetworkInfoDto computerNetworkInfoDto = new ComputerNetworkInfoDto();
