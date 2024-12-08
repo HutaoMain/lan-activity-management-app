@@ -29,8 +29,6 @@ public class ComputerInfoService {
     }
 
     public List<ComputerNetworkInfoDto> checkIpAddresses() {
-
-
         List<ComputerInfo> computerInfoList = computerInfoRepository.findAll();
         ArrayList<ComputerNetworkInfoDto> computerNetworkInfoDtoArrayList = new ArrayList<>();
 
@@ -40,6 +38,7 @@ public class ComputerInfoService {
             ComputerNetworkInfoDto computerNetworkInfoDto = new ComputerNetworkInfoDto();
                 try {
                     boolean isReachable = isValidAndReachable(computerInfo.getIpAddress());
+                    computerNetworkInfoDto.setId(computerInfo.getId());
                     computerNetworkInfoDto.setHostName(computerInfo.getHostName());
                     computerNetworkInfoDto.setIpAddress(computerInfo.getIpAddress());
                     computerNetworkInfoDto.setCreatedOn(computerInfo.getCreatedOn());
@@ -87,6 +86,11 @@ public class ComputerInfoService {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public void deleteComputerInfo(Long id){
+        logger.info("delete id: {}", id);
+        computerInfoRepository.deleteById(id);
     }
 
 

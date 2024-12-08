@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class ComputerNetworkInfoDto {
 
+    private Long id;
     private String hostName;
     private String ipAddress;
     private Boolean ipStatus;
@@ -18,7 +19,8 @@ public class ComputerNetworkInfoDto {
     public ComputerNetworkInfoDto(){
     }
 
-    public ComputerNetworkInfoDto(String hostName, String ipAddress, Boolean ipStatus, Instant createdOn, Instant lastUpdatedOn) {
+    public ComputerNetworkInfoDto(Long id, String hostName, String ipAddress, Boolean ipStatus, Instant createdOn, Instant lastUpdatedOn) {
+        this.id = id;
         this.hostName = hostName;
         this.ipAddress = ipAddress;
         this.ipStatus = ipStatus;

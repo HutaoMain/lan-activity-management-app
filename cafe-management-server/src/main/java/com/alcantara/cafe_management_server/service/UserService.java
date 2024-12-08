@@ -2,6 +2,8 @@ package com.alcantara.cafe_management_server.service;
 
 import com.alcantara.cafe_management_server.entity.User;
 import com.alcantara.cafe_management_server.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Service
 public class UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     UserRepository userRepository;
@@ -33,9 +37,11 @@ public class UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
         User user = userRepository.findByUsername(username);
         if (user == null) {
+            logger.info("User not found");
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User not found");
         }
         if (!encoder.matches(password, user.getPassword())) {
+            logger.info("Invalid password");
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Invalid password");
         }
         return user;

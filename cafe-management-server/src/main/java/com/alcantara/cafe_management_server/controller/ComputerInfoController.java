@@ -29,6 +29,12 @@ public class ComputerInfoController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteComputerInfo(@PathVariable Long id){
+        computerInfoService.deleteComputerInfo(id);
+        return ResponseEntity.ok("Successfully deleted" + id);
+    }
+
 //    @PostMapping("/shutdown/{ip}")
 //    public ResponseEntity<?> shutdownComputer(
 //            @PathVariable String ip,
