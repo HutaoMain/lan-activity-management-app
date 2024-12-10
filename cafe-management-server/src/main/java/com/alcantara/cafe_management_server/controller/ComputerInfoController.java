@@ -35,18 +35,15 @@ public class ComputerInfoController {
         return ResponseEntity.ok("Successfully deleted" + id);
     }
 
-//    @PostMapping("/shutdown/{ip}")
-//    public ResponseEntity<?> shutdownComputer(
-//            @PathVariable String ip,
-//            @RequestParam String username,
-//            @RequestParam(required = false) String password) {
-//
-//        ComputerInfoService.ShutdownResult result = computerInfoService.shutdownComputer(ip, username, password);
-//
-//        if (result.success()) {
-//            return ResponseEntity.ok(result.message());
-//        } else {
-//            return ResponseEntity.internalServerError().body(result.message());
-//        }
-//    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ComputerInfo> updateComputerInfo(@PathVariable Long id, @RequestBody ComputerInfo computerInfo){
+        ComputerInfo info = computerInfoService.updateComputerInfo(id, computerInfo);
+        return ResponseEntity.ok(info);
+    }
+
+    @PostMapping("/logout-windows")
+    public ResponseEntity<String> logoutWindows() {
+        String result = computerInfoService.logoutWindowsUser();
+        return ResponseEntity.ok(result);
+    }
 }
