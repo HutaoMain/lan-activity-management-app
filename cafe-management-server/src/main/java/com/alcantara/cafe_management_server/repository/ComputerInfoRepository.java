@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ComputerInfoRepository extends JpaRepository<ComputerInfo, Long> {
+    ComputerInfo findByIpAddress(String ipAddress);
 }
