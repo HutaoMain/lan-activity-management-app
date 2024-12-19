@@ -26,4 +26,3 @@ public class ComputerInfo {
     @UpdateTimestamp(source = SourceType.DB)
     private Instant lastUpdatedOn;
 }
-

@@ -16,10 +16,11 @@ public class ComputerNetworkInfoDto {
     private Instant createdOn;
     private Instant lastUpdatedOn;
 
-    public ComputerNetworkInfoDto(){
+    public ComputerNetworkInfoDto() {
     }
 
-    public ComputerNetworkInfoDto(Long id, String ipAddress, String hostName, Boolean ipStatus, Instant createdOn, Instant lastUpdatedOn) {
+    public ComputerNetworkInfoDto(Long id, String ipAddress, String hostName, Boolean ipStatus, Instant createdOn,
+            Instant lastUpdatedOn) {
         this.id = id;
         this.ipAddress = ipAddress;
         this.hostName = hostName;

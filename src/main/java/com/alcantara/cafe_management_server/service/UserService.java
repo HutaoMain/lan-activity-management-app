@@ -23,7 +23,7 @@ public class UserService {
     public User registerUser(User user) {
         User getUserByUsername = userRepository.findByUsername(user.getUsername());
 
-        if(getUserByUsername != null){
+        if (getUserByUsername != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists.");
         }
 

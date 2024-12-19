@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 public class Utility {
     private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
-    public static String convertListToJson(Object obj)  {
+    public static String convertListToJson(Object obj) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         try {

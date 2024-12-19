@@ -19,7 +19,7 @@ public class ComputerInfoController {
     ComputerInfoService computerInfoService;
 
     @PostMapping("/create")
-    private ResponseEntity<ComputerInfo> createComputerInfo(@RequestBody ComputerInfo computerInfo){
+    private ResponseEntity<ComputerInfo> createComputerInfo(@RequestBody ComputerInfo computerInfo) {
         return ResponseEntity.ok(computerInfoService.createComputerInfo(computerInfo));
     }
 
@@ -30,13 +30,14 @@ public class ComputerInfoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteComputerInfo(@PathVariable Long id){
+    public ResponseEntity<String> deleteComputerInfo(@PathVariable Long id) {
         computerInfoService.deleteComputerInfo(id);
         return ResponseEntity.ok("Successfully deleted" + id);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ComputerInfo> updateComputerInfo(@PathVariable Long id, @RequestBody ComputerInfo computerInfo){
+    public ResponseEntity<ComputerInfo> updateComputerInfo(@PathVariable Long id,
+            @RequestBody ComputerInfo computerInfo) {
         ComputerInfo info = computerInfoService.updateComputerInfo(id, computerInfo);
         return ResponseEntity.ok(info);
     }

@@ -29,7 +29,7 @@ public class ComputerInfoService {
     private static final Logger logger = LoggerFactory.getLogger(ComputerInfoService.class);
     private static final int TIMEOUT_MS = 1000;
 
-    public ComputerInfo createComputerInfo(ComputerInfo computerInfo){
+    public ComputerInfo createComputerInfo(ComputerInfo computerInfo) {
         return computerInfoRepository.save(computerInfo);
     }
 
@@ -39,22 +39,21 @@ public class ComputerInfoService {
 
         for (ComputerInfo computerInfo : computerInfoList) {
             ComputerNetworkInfoDto computerNetworkInfoDto = new ComputerNetworkInfoDto();
-                try {
-                    boolean isReachable = isValidAndReachable(computerInfo.getIpAddress());
-                    computerNetworkInfoDto.setId(computerInfo.getId());
-                    computerNetworkInfoDto.setHostName(computerInfo.getHostName());
-                    computerNetworkInfoDto.setIpAddress(computerInfo.getIpAddress());
-                    computerNetworkInfoDto.setCreatedOn(computerInfo.getCreatedOn());
-                    computerNetworkInfoDto.setLastUpdatedOn(computerInfo.getLastUpdatedOn());
-                    computerNetworkInfoDto.setIpStatus(isReachable);
-                    computerNetworkInfoDtoArrayList.add(computerNetworkInfoDto);
-                } catch (Exception e) {
-                    logger.error("Error checking IP {}: {}", computerInfo.getIpAddress(), e.getMessage());
-                    computerNetworkInfoDto.setIpStatus(false);
-                }
+            try {
+                boolean isReachable = isValidAndReachable(computerInfo.getIpAddress());
+                computerNetworkInfoDto.setId(computerInfo.getId());
+                computerNetworkInfoDto.setHostName(computerInfo.getHostName());
+                computerNetworkInfoDto.setIpAddress(computerInfo.getIpAddress());
+                computerNetworkInfoDto.setCreatedOn(computerInfo.getCreatedOn());
+                computerNetworkInfoDto.setLastUpdatedOn(computerInfo.getLastUpdatedOn());
+                computerNetworkInfoDto.setIpStatus(isReachable);
+                computerNetworkInfoDtoArrayList.add(computerNetworkInfoDto);
+            } catch (Exception e) {
+                logger.error("Error checking IP {}: {}", computerInfo.getIpAddress(), e.getMessage());
+                computerNetworkInfoDto.setIpStatus(false);
+            }
         }
 
-        System.out.println("ComputerNetworkInfoDtoArrayList: " + Utility.convertListToJson(computerNetworkInfoDtoArrayList));
         return computerNetworkInfoDtoArrayList;
     }
 
@@ -91,23 +90,23 @@ public class ComputerInfoService {
         }
     }
 
-    public void deleteComputerInfo(Long id){
+    public void deleteComputerInfo(Long id) {
         logger.info("delete id: {}", id);
         computerInfoRepository.deleteById(id);
     }
 
-    public ComputerInfo updateComputerInfo(Long id, ComputerInfo computerInfo){
+    public ComputerInfo updateComputerInfo(Long id, ComputerInfo computerInfo) {
         ComputerInfo info = computerInfoRepository.findById(id).orElse(null);
 
-        if(info == null){
+        if (info == null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Computer info is null");
         }
 
-        if(StringUtils.isNotBlank(computerInfo.getIpAddress())){
+        if (StringUtils.isNotBlank(computerInfo.getIpAddress())) {
             info.setIpAddress(computerInfo.getIpAddress());
         }
 
-        if(StringUtils.isNotBlank(computerInfo.getHostName())){
+        if (StringUtils.isNotBlank(computerInfo.getHostName())) {
             info.setHostName(computerInfo.getHostName());
         }
 
@@ -118,7 +117,7 @@ public class ComputerInfoService {
     public String logoutWindowsUser() {
         try {
             // Prepare the command to log off
-            String[] command = {"cmd.exe", "/c", "logoff"};
+            String[] command = { "cmd.exe", "/c", "logoff" };
 
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             processBuilder.redirectErrorStream(true);
