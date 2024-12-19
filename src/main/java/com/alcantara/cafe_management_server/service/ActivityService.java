@@ -11,10 +11,12 @@ import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.sun.jna.platform.win32.WinDef.HWND;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class ActivityService {
@@ -89,4 +91,13 @@ public class ActivityService {
             logger.error("Error saving active windows to the database: {}", e.getMessage());
         }
     }
+
+    public List<Activity> getAllActivitiesSortedByCreatedOn() {
+        return activityRepository.findAll(Sort.by(Sort.Direction.DESC, "createdOn"));
+    }
+
+    public List<Activity> getActivitiesByComputerInfoId(Long computerInfoId) {
+        return activityRepository.findByComputerInfoId(computerInfoId, Sort.by(Sort.Direction.DESC, "createdOn"));
+    }
+
 }
