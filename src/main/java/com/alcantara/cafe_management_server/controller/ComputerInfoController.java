@@ -47,4 +47,10 @@ public class ComputerInfoController {
         String result = computerInfoService.logoutWindowsUser();
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<ComputerInfo>> getAllComputerInfo() {
+        List<ComputerInfo> computerInfoList = computerInfoService.getAllComputerInfo();
+        return ResponseEntity.ok(computerInfoList);
+    }
 }

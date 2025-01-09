@@ -18,14 +18,13 @@ public class ActivityController {
     ActivityService activityService;
 
     @GetMapping("/list")
-    ResponseEntity<List<Activity>> getAllActivitiesSortedByCreatedOn() {
-        List<Activity> activities = activityService.getAllActivitiesSortedByCreatedOn();
-        return ResponseEntity.ok(activities);
-    }
-
-    @GetMapping("/list/{computerInfoId}")
-    ResponseEntity<List<Activity>> getActivitiesByComputerInfoId(@PathVariable Long computerInfoId) {
-        List<Activity> activities = activityService.getActivitiesByComputerInfoId(computerInfoId);
+    public ResponseEntity<List<Activity>> getActivities(@RequestParam(required = false) Long computerInfoId) {
+        List<Activity> activities;
+        if (computerInfoId != null) {
+            activities = activityService.getActivitiesByComputerInfoId(computerInfoId);
+        } else {
+            activities = activityService.getAllActivitiesSortedByCreatedOn();
+        }
         return ResponseEntity.ok(activities);
     }
 

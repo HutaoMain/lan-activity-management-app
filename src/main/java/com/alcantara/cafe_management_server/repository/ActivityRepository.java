@@ -10,5 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
+
     List<Activity> findByComputerInfoId(Long computerInfoId, Sort sort);
+
+    List<Activity> findByComputerInfoIpAddress(String ipAddress, Sort sort);
 }

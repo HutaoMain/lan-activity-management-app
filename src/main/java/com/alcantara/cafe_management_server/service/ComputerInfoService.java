@@ -149,4 +149,8 @@ public class ComputerInfoService {
             return "Error logging out user: " + e.getMessage();
         }
     }
+
+    public List<ComputerInfo> getAllComputerInfo() {
+        return computerInfoRepository.findAll();
+    }
 }
