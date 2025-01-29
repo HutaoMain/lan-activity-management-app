@@ -1,5 +1,6 @@
 package com.alcantara.cafe_management_server.service;
 
+import com.alcantara.cafe_management_server.dto.ActivityDto;
 import com.alcantara.cafe_management_server.entity.Activity;
 import com.alcantara.cafe_management_server.entity.ComputerInfo;
 import com.alcantara.cafe_management_server.repository.ActivityRepository;
@@ -100,4 +101,21 @@ public class ActivityService {
         return activityRepository.findByComputerInfoId(computerInfoId, Sort.by(Sort.Direction.DESC, "createdOn"));
     }
 
+    public void saveActivities(List<ActivityDto> activities) {
+        for (ActivityDto activityDto : activities) {
+            ComputerInfo computerInfo = computerInfoRepository.findByIpAddress(activityDto.getIpAddress());
+            if (computerInfo == null) {
+                computerInfo = new ComputerInfo();
+                computerInfo.setIpAddress(activityDto.getIpAddress());
+                computerInfoRepository.save(computerInfo);
+            }
+
+            Activity activity = new Activity();
+            activity.setActiveWindow(activityDto.getActiveWindow());
+            activity.setActiveDateTime(activityDto.getActiveDateTime());
+            activity.setComputerInfo(computerInfo);
+
+            activityRepository.save(activity);
+        }
+    }
 }

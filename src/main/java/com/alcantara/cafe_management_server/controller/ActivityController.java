@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.alcantara.cafe_management_server.dto.ActivityDto;
 import com.alcantara.cafe_management_server.entity.Activity;
 import com.alcantara.cafe_management_server.service.ActivityService;
 
@@ -26,6 +27,12 @@ public class ActivityController {
             activities = activityService.getAllActivitiesSortedByCreatedOn();
         }
         return ResponseEntity.ok(activities);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<Void> saveActivities(@RequestBody List<ActivityDto> activities) {
+        activityService.saveActivities(activities);
+        return ResponseEntity.ok().build();
     }
 
 }

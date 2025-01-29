@@ -34,12 +34,17 @@ public class ComputerInfoService {
     }
 
     public List<ComputerNetworkInfoDto> checkIpAddresses() {
-        List<ComputerInfo> computerInfoList = computerInfoRepository.findAll();
+        List<ComputerInfo> computerInfoList = computerInfoRepository.findByIsDeletedFalse();
         ArrayList<ComputerNetworkInfoDto> computerNetworkInfoDtoArrayList = new ArrayList<>();
 
         for (ComputerInfo computerInfo : computerInfoList) {
             ComputerNetworkInfoDto computerNetworkInfoDto = new ComputerNetworkInfoDto();
             try {
+
+                if (isMyIPAddress(computerInfo.getIpAddress())) {
+                    continue;
+                }
+
                 boolean isReachable = isValidAndReachable(computerInfo.getIpAddress());
                 computerNetworkInfoDto.setId(computerInfo.getId());
                 computerNetworkInfoDto.setHostName(computerInfo.getHostName());
@@ -55,6 +60,14 @@ public class ComputerInfoService {
         }
 
         return computerNetworkInfoDtoArrayList;
+    }
+
+    private boolean isMyIPAddress(String ip) {
+        try {
+            return InetAddress.getLocalHost().getHostAddress().equals(ip);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isValidAndReachable(String ip) {
@@ -90,9 +103,15 @@ public class ComputerInfoService {
         }
     }
 
-    public void deleteComputerInfo(Long id) {
+    public void setComputerInfoIntoIsDeleted(Long id) {
         logger.info("delete id: {}", id);
-        computerInfoRepository.deleteById(id);
+        ComputerInfo computerInfo = computerInfoRepository.findById(id).orElse(null);
+
+        if (computerInfo == null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Computer info is null");
+        }
+        computerInfo.setIsDeleted(true);
+        computerInfoRepository.save(computerInfo);
     }
 
     public ComputerInfo updateComputerInfo(Long id, ComputerInfo computerInfo) {

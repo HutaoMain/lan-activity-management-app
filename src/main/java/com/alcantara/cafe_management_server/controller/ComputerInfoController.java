@@ -30,8 +30,8 @@ public class ComputerInfoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteComputerInfo(@PathVariable Long id) {
-        computerInfoService.deleteComputerInfo(id);
+    public ResponseEntity<String> setComputerInfoIntoIsDeleted(@PathVariable Long id) {
+        computerInfoService.setComputerInfoIntoIsDeleted(id);
         return ResponseEntity.ok("Successfully deleted" + id);
     }
 

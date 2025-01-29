@@ -29,4 +29,5 @@ public class ComputerInfo {
     private Instant createdOn;
     @UpdateTimestamp(source = SourceType.DB)
     private Instant lastUpdatedOn;
+    private Boolean isDeleted = false;
 }
