@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,12 +25,11 @@ public class Activity {
 
     @ManyToOne
     @JoinColumn(name = "computer_info_id")
-
     private ComputerInfo computerInfo;
 
     @CreationTimestamp(source = SourceType.DB)
-    private Instant createdOn;
+    private LocalDateTime createdOn;
 
     @UpdateTimestamp(source = SourceType.DB)
-    private Instant lastUpdatedOn;
+    private LocalDateTime lastUpdatedOn;
 }

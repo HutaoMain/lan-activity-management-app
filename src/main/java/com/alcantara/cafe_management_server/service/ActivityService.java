@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.sun.jna.platform.win32.WinDef.HWND;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -93,12 +94,41 @@ public class ActivityService {
         }
     }
 
-    public List<Activity> getAllActivitiesSortedByCreatedOn() {
-        return activityRepository.findAll(Sort.by(Sort.Direction.DESC, "createdOn"));
+    public List<ActivityDto> getAllActivitiesSortedByCreatedOn() {
+        List<Activity> activities = activityRepository.findAll(Sort.by(Sort.Direction.DESC, "createdOn"));
+
+        List<ActivityDto> activityDtos = new ArrayList<>();
+
+        for (Activity activity : activities) {
+            ActivityDto activityDto = new ActivityDto();
+            activityDto.setId(activity.getId());
+            activityDto.setActiveDateTime(activity.getActiveDateTime());
+            activityDto.setActiveWindow(activity.getActiveWindow());
+            activityDto.setIpAddress(activity.getComputerInfo().getIpAddress());
+            activityDto.setCreatedOn(activity.getCreatedOn());
+            activityDtos.add(activityDto);
+        }
+
+        return activityDtos;
     }
 
-    public List<Activity> getActivitiesByComputerInfoId(Long computerInfoId) {
-        return activityRepository.findByComputerInfoId(computerInfoId, Sort.by(Sort.Direction.DESC, "createdOn"));
+    public List<ActivityDto> getActivitiesByComputerInfoId(Long computerInfoId) {
+        List<Activity> activities = activityRepository.findByComputerInfoId(computerInfoId,
+                Sort.by(Sort.Direction.DESC, "createdOn"));
+
+        List<ActivityDto> activityDtos = new ArrayList<>();
+
+        for (Activity activity : activities) {
+            ActivityDto activityDto = new ActivityDto();
+            activityDto.setId(activity.getId());
+            activityDto.setActiveDateTime(activity.getActiveDateTime());
+            activityDto.setActiveWindow(activity.getActiveWindow());
+            activityDto.setIpAddress(activity.getComputerInfo().getIpAddress());
+            activityDto.setCreatedOn(activity.getCreatedOn());
+            activityDtos.add(activityDto);
+        }
+
+        return activityDtos;
     }
 
     public void saveActivities(List<ActivityDto> activities) {

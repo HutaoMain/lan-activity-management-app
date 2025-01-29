@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.alcantara.cafe_management_server.dto.ActivityDto;
-import com.alcantara.cafe_management_server.entity.Activity;
 import com.alcantara.cafe_management_server.service.ActivityService;
 
 @RestController
@@ -19,8 +18,8 @@ public class ActivityController {
     ActivityService activityService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<Activity>> getActivities(@RequestParam(required = false) Long computerInfoId) {
-        List<Activity> activities;
+    public ResponseEntity<List<ActivityDto>> getActivities(@RequestParam(required = false) Long computerInfoId) {
+        List<ActivityDto> activities;
         if (computerInfoId != null) {
             activities = activityService.getActivitiesByComputerInfoId(computerInfoId);
         } else {
